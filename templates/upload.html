@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ChatScanner</title>
-  </head>
+    <script>
+      function setTextareaValue(text) {
+        document.getElementById("question").value = text;
+      }
+    </script>
+    </head>
   <body>
     <h1>ChatScanner</h1>
     <form action="/" method="POST" enctype="multipart/form-data">
@@ -25,7 +30,15 @@
         required
       ></textarea
       ><br /><br />
+      <h3>A few examples for your inspiration:</h3>
+      <ul>
+        <li><a href="#" onclick="setTextareaValue('List all events that happened in Belgorod');">List all events that happened in Belgorod</a></li>
+        <li><a href="#" onclick="setTextareaValue('What is the latest status in Bakhmut?');">What is the latest status in Bakhmut?</a></li>
+        <li><a href="#" onclick="setTextareaValue('Is Wagner involved in Sudan?');">Is Wagner involved in Sudan?</a></li>
+      </ul>
+      <br /><br />
       <button type="submit">Submit</button>
     </form>
+    </ul>
   </body>
 </html>
