@@ -1,0 +1,9 @@
+flask
+langchain
+chromadb
+faiss
+gunicorn
+openai
+tiktoken
+markdown
+cachetools

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatScanner</title>
+  </head>
+  <body>
+    <h1>ChatScanner</h1>
+    <form action="/" method="POST" enctype="multipart/form-data">
+      <label for="json_files">Select Telegram chat dump (json):</label>
+      <input
+        type="file"
+        id="json_files"
+        name="json_files"
+        multiple
+        required
+      /><br /><br />
+      <label for="question">Enter your question:</label>
+      <textarea
+        id="question"
+        name="question"
+        rows="2"
+        cols="50"
+        required
+      ></textarea
+      ><br /><br />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

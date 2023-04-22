@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Result</title>
+  </head>
+  <body>
+    <h1>Result</h1>
+    <p><b>Question:</b> {{ question }}</p>
+    <p><b>Answer:</b><br />{{ answer_html|safe }}</p>
+    <a href="{{ url_for('upload_files') }}">Go Back</a>
+  </body>
+</html>
