@@ -1,7 +1,7 @@
 flask
 langchain
 chromadb
-faiss
+faiss-cpu
 gunicorn
 openai
 tiktoken
