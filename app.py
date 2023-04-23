@@ -99,9 +99,53 @@ class TelegramChatLoader(BaseLoader):
         return [Document(page_content=text, metadata=metadata)]
 
 
+class TelegramScraperLoader(BaseLoader):
+    """Loads JSONL files"""
+
+    def __init__(self, path: str):
+        """Initialize with path."""
+        self.file_path = path
+
+    def load(self) -> List[Document]:
+        """Load documents."""
+        try:
+            import pandas as pd
+        except ImportError:
+            raise ValueError(
+                "pandas is needed for Telegram loader, "
+                "please install with `pip install pandas`"
+            )
+        p = Path(self.file_path)
+
+        with open(p, mode='r') as f:
+            json_list = list(f)
+
+            data:list=[]
+
+            for json_str in json_list:
+                json_obj = json.loads(json_str)
+                data.append({
+                    "date":json_obj["date"],
+                    "text":json_obj["content"]
+                    })
+                # content = json_obj['content'].encode('utf8')
+            print("data", data)
+
+            text = ''
+            for post in data:
+                text = ' '.join([text,"date:", post["date"], "text:", post["text"]or '' ])
+
+        metadata = {"source": str(p)}
+
+        return [Document(page_content=text, metadata=metadata)]
+
+
+
 def get_loader(file):
     if file.endswith(".json"):
         return TelegramChatLoader(file)
+    if file.endswith(".jsonl"):
+        return TelegramScraperLoader(file)
     elif file.endswith(".html"):
         return UnstructuredHTMLLoader(file)
     elif file.endswith(".csv"):
