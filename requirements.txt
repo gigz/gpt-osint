@@ -8,5 +8,6 @@ tiktoken
 markdown
 cachetools
 unstructured
+unstructured[local-inference]
 dotenv
 pandas

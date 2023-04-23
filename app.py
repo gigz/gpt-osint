@@ -13,7 +13,9 @@ from flask import Flask, flash, redirect, render_template, request, url_for
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.docstore.document import Document
-from langchain.document_loaders import CSVLoader, UnstructuredHTMLLoader
+from langchain.document_loaders import (CSVLoader, UnstructuredHTMLLoader,
+                                        UnstructuredMarkdownLoader,
+                                        UnstructuredPDFLoader)
 from langchain.document_loaders.base import BaseLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
@@ -155,6 +157,10 @@ def get_loader(file):
         return UnstructuredHTMLLoader(file)
     elif file.endswith(".csv"):
         return CSVLoader(file)
+    elif file.endswith(".pdf"):
+        return UnstructuredPDFLoader(file, mode="elements")
+    elif file.endswith(".txt"):
+        return UnstructuredMarkdownLoader(file)
     else:
         raise ValueError(f"Unknown file type {file}")
 
