@@ -27,6 +27,10 @@
         animation: spin 1s linear infinite;
       }
 
+      .error {
+        color: red;
+      }
+      
       @keyframes spin {
         100% {
           transform: rotate(360deg);
@@ -106,6 +110,16 @@
       </ul>
       <br /><br />
       <button type="submit">Submit</button>
+      <br /><br />
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashed-messages">
+            {% for category, message in messages %}
+              <li{% if category %} class="{{ category }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
     </form>
     <div id="overlay">
       <div class="spinner"></div>

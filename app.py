@@ -2,13 +2,14 @@ import hashlib
 import json
 import os
 import tempfile
+import uuid
 from pathlib import Path
 from typing import List
 
 import cachetools
 import markdown
 from dotenv import load_dotenv
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.docstore.document import Document
@@ -20,6 +21,7 @@ from langchain.vectorstores import FAISS
 
 load_dotenv()
 app = Flask(__name__)
+app.secret_key = uuid.uuid4().hex
 embeddings = OpenAIEmbeddings()
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
 gpt_model = os.getenv("GPT_MODEL", "gpt-3.5-turbo")
@@ -192,15 +194,22 @@ def process_files(files, question):
 @app.route("/", methods=["GET", "POST"])
 def upload_files():
     if request.method == "POST":
-        files = request.files.getlist("json_files")
-        question = request.form["question"]
-        answer = process_files(files, question)
-        answer_html = markdown.markdown(answer)
-        return render_template(
-            "result.html",
-            question=question,
-            answer_html=answer_html)
+        try:
+            files = request.files.getlist("json_files")
+            question = request.form["question"]
+            print("POST request:", files, question)
+            answer = process_files(files, question)
+            print("Response:", answer)
+            answer_html = markdown.markdown(answer)
+            return render_template(
+                "result.html",
+                question=question,
+                answer_html=answer_html)
+        except Exception as e:
+            print(e)  # This will print the exception details to the console, remove if not needed
+            flash('Error: ' + str(e), 'error')
 
+    print("GET request")
     return render_template("upload.html")
 
 if __name__ == "__main__":

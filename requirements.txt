@@ -8,3 +8,5 @@ tiktoken
 markdown
 cachetools
 unstructured
+dotenv
+pandas
