@@ -14,7 +14,7 @@
 
 ### Web Hosted Tool
 
-No installation required, just go to http://127.0.0.1:8080
+No installation required, just go to http://35.214.76.147:8080/
 
 ### Local Version
 
