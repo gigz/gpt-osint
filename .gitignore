@@ -2,3 +2,4 @@ __pycache__
 .chroma
 .vscode
 logs
+.env
