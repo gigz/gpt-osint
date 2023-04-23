@@ -7,6 +7,7 @@ from typing import List
 
 import cachetools
 import markdown
+from dotenv import load_dotenv
 from flask import Flask, redirect, render_template, request, url_for
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
@@ -16,13 +17,13 @@ from langchain.document_loaders.base import BaseLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
-from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
 embeddings = OpenAIEmbeddings()
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-llm = ChatOpenAI(model='gpt-4') # gpt-3.5-turbo
+gpt_model = os.getenv("GPT_MODEL", "gpt-3.5-turbo")
+llm = ChatOpenAI(model=gpt_model)
 index_cache = cachetools.LRUCache(maxsize=100)
 
 # This function reads a file in chunks and returns a SHA256 hash of the file
@@ -100,7 +101,7 @@ class TelegramChatLoader(BaseLoader):
 
         return [Document(page_content=text, metadata=metadata)]
 
-
+# Loader for telegram dump from snscraper
 class TelegramScraperLoader(BaseLoader):
     """Loads JSONL files"""
 
@@ -142,7 +143,7 @@ class TelegramScraperLoader(BaseLoader):
         return [Document(page_content=text, metadata=metadata)]
 
 
-
+# Pick the right data loader based on file format
 def get_loader(file):
     if file.endswith(".json"):
         return TelegramChatLoader(file)

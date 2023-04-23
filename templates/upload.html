@@ -3,22 +3,64 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ChatScanner</title>
+    <title>osint-gpt</title>
+    <style>
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-left-color: #007bff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
     <script>
       function setTextareaValue(text) {
         document.getElementById("question").value = text;
       }
+
+      function showOverlay() {
+        document.getElementById("overlay").style.display = "flex";
+      }
     </script>
-    </head>
+  </head>
   <body>
-    <h1>LLMScanner</h1>
-    <form action="/" method="POST" enctype="multipart/form-data">
-      <i>Supported formats:
+    <h1><a href="https://github.com/gigz/gpt-osint">osint-gpt</a></h1>
+    <form
+      action="/"
+      method="POST"
+      enctype="multipart/form-data"
+      onsubmit="showOverlay();"
+    >
+      <i
+        >Supported formats:
         <ul>
-        <li>json - Telegram channel export</li>
-        <li>jsonl - Telegram channel export created by <a href="https://github.com/bellingcat/snscrape"> snscraper </a> </li>
-        <li>html - Web page</li>
-        <li>csv - Comma separated data</li>
+          <li>json - Telegram channel export</li>
+          <li>
+            jsonl - Telegram channel export created by
+            <a href="https://github.com/bellingcat/snscrape"> snscraper </a>
+          </li>
+          <li>html - Web page</li>
+          <li>csv - Comma separated data</li>
         </ul>
       </i>
       <label for="json_files">Select files to work with:</label><br />
@@ -40,13 +82,33 @@
       ><br /><br />
       <h3>A few examples for your inspiration:</h3>
       <ul>
-        <li><a href="#" onclick="setTextareaValue('List all events that happened in Belgorod');">List all events that happened in Belgorod</a></li>
-        <li><a href="#" onclick="setTextareaValue('What is the latest status in Bakhmut?');">What is the latest status in Bakhmut?</a></li>
-        <li><a href="#" onclick="setTextareaValue('Is Wagner involved in Sudan?');">Is Wagner involved in Sudan?</a></li>
+        <li>
+          <a
+            href="#"
+            onclick="setTextareaValue('List all events that happened in Belgorod');"
+            >List all events that happened in Belgorod</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            onclick="setTextareaValue('What is the latest status in Bakhmut?');"
+            >What is the latest status in Bakhmut?</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            onclick="setTextareaValue('Is Wagner involved in Sudan?');"
+            >Is Wagner involved in Sudan?</a
+          >
+        </li>
       </ul>
       <br /><br />
       <button type="submit">Submit</button>
     </form>
-    </ul>
+    <div id="overlay">
+      <div class="spinner"></div>
+    </div>
   </body>
 </html>
