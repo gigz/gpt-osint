@@ -23,15 +23,16 @@ llm = ChatOpenAI(model='gpt-4') # gpt-3.5-turbo
 index_cache = cachetools.LRUCache(maxsize=100)
 
 # This function reads a file in chunks and returns a SHA256 hash of the file
-def file_hash_sha256(file_path):
+def files_hash_sha256(file_paths):
     sha256_hash = hashlib.sha256()
-    with open(file_path, 'rb') as file:
-        # Read the file in chunks to avoid using too much memory
-        chunk_size = 8192
-        file_chunk = file.read(chunk_size)
-        while file_chunk:
-            sha256_hash.update(file_chunk)
+    for file_path in file_paths:
+        with open(file_path, 'rb') as file:
+            # Read the file in chunks to avoid using too much memory
+            chunk_size = 8192
             file_chunk = file.read(chunk_size)
+            while file_chunk:
+                sha256_hash.update(file_chunk)
+                file_chunk = file.read(chunk_size)
     return sha256_hash.hexdigest()
 
 # The function below takes a dictionary as input and returns a string
@@ -98,14 +99,14 @@ class TelegramChatLoader(BaseLoader):
 
 # This function build index from telegram chat file and using langchain
 # Creates two hop query - gets data from index and then sends prompt to gpt
-def get_completion(file, question):
-    f_hash = file_hash_sha256(file)
+def get_completion(files, question):
+    f_hash = files_hash_sha256(files)
     if f_hash in index_cache:
         db = index_cache[f_hash]
     else:
-        loader = TelegramChatLoader(file)
-
-        documents = loader.load()
+        loaders = [TelegramChatLoader(file) for file in files]
+        documents = [loader.load() for loader in loaders]
+        documents = [doc for docs in documents for doc in docs]
         texts = text_splitter.split_documents(documents)
         db = FAISS.from_documents(texts, embeddings)
         index_cache[f_hash] = db
@@ -124,7 +125,7 @@ def process_files(files, question):
             file.save(file_path)
             file_paths.append(file_path)
 
-        response = get_completion(file_paths[0], "Try to give answers with context and message timestamps. " + question)
+        response = get_completion(file_paths, "Try to give answers with context and message timestamps. " + question)
 
     return response
 
