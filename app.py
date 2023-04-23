@@ -16,7 +16,9 @@ from langchain.document_loaders.base import BaseLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 embeddings = OpenAIEmbeddings()
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
