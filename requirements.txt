@@ -7,3 +7,4 @@ openai
 tiktoken
 markdown
 cachetools
+unstructured

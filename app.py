@@ -11,6 +11,7 @@ from flask import Flask, redirect, render_template, request, url_for
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.docstore.document import Document
+from langchain.document_loaders import CSVLoader, UnstructuredHTMLLoader
 from langchain.document_loaders.base import BaseLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
@@ -97,6 +98,17 @@ class TelegramChatLoader(BaseLoader):
 
         return [Document(page_content=text, metadata=metadata)]
 
+
+def get_loader(file):
+    if file.endswith(".json"):
+        return TelegramChatLoader(file)
+    elif file.endswith(".html"):
+        return UnstructuredHTMLLoader(file)
+    elif file.endswith(".csv"):
+        return CSVLoader(file)
+    else:
+        raise ValueError(f"Unknown file type {file}")
+
 # This function build index from telegram chat file and using langchain
 # Creates two hop query - gets data from index and then sends prompt to gpt
 def get_completion(files, question):
@@ -104,7 +116,7 @@ def get_completion(files, question):
     if f_hash in index_cache:
         db = index_cache[f_hash]
     else:
-        loaders = [TelegramChatLoader(file) for file in files]
+        loaders = [get_loader(file) for file in files]
         documents = [loader.load() for loader in loaders]
         documents = [doc for docs in documents for doc in docs]
         texts = text_splitter.split_documents(documents)

@@ -11,9 +11,16 @@
     </script>
     </head>
   <body>
-    <h1>ChatScanner</h1>
+    <h1>LLMScanner</h1>
     <form action="/" method="POST" enctype="multipart/form-data">
-      <label for="json_files">Select Telegram chat dump (json):</label>
+      <i>Supported formats:
+        <ul>
+        <li>json - Telegram channel export</li>
+        <li>html - Web page</li>
+        <li>csv - Comma separated data</li>
+        </ul>
+      </i>
+      <label for="json_files">Select files to work with:</label><br />
       <input
         type="file"
         id="json_files"
@@ -21,7 +28,7 @@
         multiple
         required
       /><br /><br />
-      <label for="question">Enter your question:</label>
+      <label for="question">Enter your question:</label><br />
       <textarea
         id="question"
         name="question"
