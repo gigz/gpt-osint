@@ -24,10 +24,10 @@ No installation required, just go to http://127.0.0.1:8080
 
         git clone https://github.com/gigz/gpt-osint
 
-3.  Move to the tool's directory and install the tool
+3.  Move to the tool's directory and install dependencies:
 
         cd gpt-osint
-        pip install .
+        pip3 install -r requirements.txt
         
 4.  Specify your OpenAI API key:
 
