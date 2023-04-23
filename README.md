@@ -53,27 +53,37 @@ The tool is straightforward to use. It requires just two inputs - a file or a se
 
 As a file input, the tool currently supports the following formats:
 
-#### Telegram Channel manual exports (json)
-Export a telegram channel or chat as a json file manually (<a href="https://www.maketecheasier.com/export-telegram-chat-history">instructions</a>)
+- **Telegram Channel manual exports (json)**
+ 
+  Export a telegram channel or chat as a json file manually (<a href="https://www.maketecheasier.com/export-telegram-chat-history">instructions</a>)
 
-#### Telegram Channel SNSCRAPE exports (jsonl)
+- **Telegram Channel SNSCRAPE exports (jsonl)**
 
-1. Follow the instructions from the snscrape repository: https://github.com/bellingcat/snscrape
-2. Use the command to export Telegram channel messages, like the following:
+  1. Follow the instructions from the snscrape repository: https://github.com/bellingcat/snscrape
+  2. Use the command to export Telegram channel messages, like the following:
 
         snscrape --jsonl --max-results 100 telegram-channel ssigny > ./examples/ssigny.jsonl
 
-#### Web Page (html)
-From the web browser, save the page as plain html.
+- **Web Page (html)**
+ 
+  From the web browser, save the page as plain html.
 
-#### Tabular Data (csv)
-Bring in your own csv file!
+- **Tabular Data (csv)**
+ 
+  Bring in your own csv file!
 
-#### Other Formats
-Currently not supported, however <a href="https://python.langchain.com/en/latest/modules/indexes/document_loaders.html">many</a> can be vert easily added.
+- **Other Formats**
+ 
+  Currently not supported, however <a href="https://python.langchain.com/en/latest/modules/indexes/document_loaders.html">many</a> can be vert easily added.
+
+You can select one or more files by clicking **"Select Files"** button.
+
+After selecting files, specify your question. It can be anything like: "Summarize the events that happened yesterday", "Does this chat mentions person X and in what context", "What is the opinion of channel owner on topic Y".
+
+Press **"Submit"** and wait for the answer to come up (can take a while, up to a minute in some cases, so please be patient)!
 
 ### Examples
-The <a href="https://github.com/gigz/gpt-osint/tree/main/examples">examples</a> folder contains a number of existing example files.
+The <a href="https://github.com/gigz/gpt-osint/tree/main/examples">examples</a> folder contains a number of existing files in different formats.
 
 ### Limitations
 
