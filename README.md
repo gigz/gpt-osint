@@ -65,7 +65,7 @@ As a file input, the tool currently supports the following formats:
   1. Follow the instructions from the snscrape repository: https://github.com/bellingcat/snscrape
   2. Use the command to export Telegram channel messages, like the following:
 
-     snscrape --jsonl --max-results 100 telegram-channel ssigny > ./examples/ssigny.jsonl
+         snscrape --jsonl --max-results 100 telegram-channel ssigny > ./examples/ssigny.jsonl
 
 - **Web Page (html)**
 
